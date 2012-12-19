@@ -12,4 +12,13 @@
 
 @property (assign) IBOutlet NSWindow *window;
 
+- (IBAction)openClicked:(id)sender;
+- (IBAction)saveClicked:(id)sender;
+
+
+@property (strong, nonatomic) NSImage *sourceImage;
+@property (strong, nonatomic) NSImage *destinationImage;
+@property (strong, nonatomic) NSString *sourceImageFilename;
+
+@property (strong, nonatomic) NSString *insetsCode;
 @end
