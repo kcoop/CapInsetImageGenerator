@@ -79,51 +79,63 @@
         verticalFillWidthPixels *= 2;
     }
     
+    if (topEdgeInsetPixels == 0 && bottomEdgeInsetPixels == 0) {
+        verticalFillWidthPixels = self.sourceImage.size.height;
+    }
+    
+    if (leftEdgeInsetPixels == 0 && rightEdgeInsetPixels == 0) {
+        horizontalFillWidthPixels = self.sourceImage.size.width;
+    }
+    
     NSImage *destImage = [[NSImage alloc]initWithSize:(NSMakeSize(leftEdgeInsetPixels + horizontalFillWidthPixels + rightEdgeInsetPixels, topEdgeInsetPixels + verticalFillWidthPixels + bottomEdgeInsetPixels))];
     
     [destImage lockFocus];
     
+    [[NSColor redColor] set];
+    NSRectFill(NSMakeRect(0,0,destImage.size.width,destImage.size.height));
+    
+    
     // Top Left
     [self.sourceImage drawInRect:NSMakeRect(0,
-                                            0,
+                                            destImage.size.height - topEdgeInsetPixels,
                                             leftEdgeInsetPixels,
                                             topEdgeInsetPixels)
                         fromRect:NSMakeRect(0,
-                                            0,
+                                            self.sourceImage.size.height - topEdgeInsetPixels,
                                             leftEdgeInsetPixels,
                                             topEdgeInsetPixels)
                        operation:NSCompositeCopy
                         fraction:1];
     // Top Middle
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels,
-                                            0,
+                                            destImage.size.height - topEdgeInsetPixels,
                                             horizontalFillWidthPixels,
                                             topEdgeInsetPixels)
                         fromRect:NSMakeRect(leftEdgeInsetPixels,
-                                            0,
+                                            self.sourceImage.size.height - topEdgeInsetPixels,
                                             horizontalFillWidthPixels,
                                             topEdgeInsetPixels)
                        operation:NSCompositeCopy
                         fraction:1];
     // Top Right
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels + horizontalFillWidthPixels,
-                                            0,
+                                            destImage.size.height - topEdgeInsetPixels,
                                             rightEdgeInsetPixels,
                                             topEdgeInsetPixels)
                         fromRect:NSMakeRect(self.sourceImage.size.width - rightEdgeInsetPixels,
-                                            0,
+                                            self.sourceImage.size.height - topEdgeInsetPixels,
                                             rightEdgeInsetPixels,
                                             topEdgeInsetPixels)
                        operation:NSCompositeCopy
                         fraction:1];
-    
+
     // Middle Left
     [self.sourceImage drawInRect:NSMakeRect(0,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             leftEdgeInsetPixels,
                                             verticalFillWidthPixels)
                         fromRect:NSMakeRect(0,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             leftEdgeInsetPixels,
                                             verticalFillWidthPixels)
                        operation:NSCompositeCopy
@@ -131,11 +143,11 @@
     
     // Middle Middle
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             horizontalFillWidthPixels,
                                             verticalFillWidthPixels)
                         fromRect:NSMakeRect(leftEdgeInsetPixels,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             horizontalFillWidthPixels,
                                             verticalFillWidthPixels)
                        operation:NSCompositeCopy
@@ -143,23 +155,23 @@
     
     // Middle Right
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels + horizontalFillWidthPixels,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             rightEdgeInsetPixels,
                                             verticalFillWidthPixels)
                         fromRect:NSMakeRect(self.sourceImage.size.width - rightEdgeInsetPixels,
-                                            topEdgeInsetPixels,
+                                            bottomEdgeInsetPixels,
                                             rightEdgeInsetPixels,
                                             verticalFillWidthPixels)
                        operation:NSCompositeCopy
                         fraction:1];
-    
+
     // Bottom Left
     [self.sourceImage drawInRect:NSMakeRect(0,
-                                            topEdgeInsetPixels+verticalFillWidthPixels,
+                                            0,
                                             leftEdgeInsetPixels,
                                             bottomEdgeInsetPixels)
                         fromRect:NSMakeRect(0,
-                                            self.sourceImage.size.height-bottomEdgeInsetPixels,
+                                            0,
                                             leftEdgeInsetPixels,
                                             bottomEdgeInsetPixels)
                        operation:NSCompositeCopy
@@ -167,11 +179,11 @@
     
     // Bottom Middle
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels,
-                                            topEdgeInsetPixels+verticalFillWidthPixels,
+                                            0,
                                             horizontalFillWidthPixels,
                                             bottomEdgeInsetPixels)
                         fromRect:NSMakeRect(leftEdgeInsetPixels,
-                                            self.sourceImage.size.height-bottomEdgeInsetPixels,
+                                            0,
                                             horizontalFillWidthPixels,
                                             bottomEdgeInsetPixels)
                        operation:NSCompositeCopy
@@ -179,11 +191,11 @@
     
     // Bottom Right
     [self.sourceImage drawInRect:NSMakeRect(leftEdgeInsetPixels + horizontalFillWidthPixels,
-                                            topEdgeInsetPixels+verticalFillWidthPixels,
+                                            0,
                                             rightEdgeInsetPixels,
                                             bottomEdgeInsetPixels)
                         fromRect:NSMakeRect(self.sourceImage.size.width - rightEdgeInsetPixels,
-                                            self.sourceImage.size.height-bottomEdgeInsetPixels,
+                                            0,
                                             rightEdgeInsetPixels,
                                             bottomEdgeInsetPixels)
                        operation:NSCompositeCopy
